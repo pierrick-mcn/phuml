@@ -14,14 +14,22 @@ final class CodebaseDirectory
 {
     private SplFileInfo $directory;
 
-    public function __construct(string $path)
+    private string $glob;
+
+    public function __construct(string $path, string $glob = '')
     {
         $this->setDirectory($path);
+        $this->glob = $glob;
     }
 
     public function absolutePath(): string
     {
         return (string) $this->directory->getRealPath();
+    }
+
+    public function getGlob(): string
+    {
+      return $this->glob;
     }
 
     private function setDirectory(string $path): void

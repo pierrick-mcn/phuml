@@ -9,6 +9,7 @@ namespace PhUml\Console\Commands;
 
 use PhUml\Parser\CodebaseDirectory;
 use PhUml\Processors\OutputFilePath;
+use Symfony\Component\Console\Input\InputInterface;
 
 final class GeneratorInput
 {
@@ -17,28 +18,28 @@ final class GeneratorInput
     private OutputFilePath $outputFile;
 
     /** @param mixed[] $input */
-    public static function dotFile(array $input): GeneratorInput
+    public static function dotFile(InputInterface $input): GeneratorInput
     {
         return new GeneratorInput($input, 'gv');
     }
 
     /** @param mixed[] $input */
-    public static function textFile(array $input): GeneratorInput
+    public static function textFile(InputInterface $input): GeneratorInput
     {
         return new GeneratorInput($input, 'txt');
     }
 
     /** @param mixed[] $input */
-    public static function pngFile(array $input): GeneratorInput
+    public static function pngFile(InputInterface $input): GeneratorInput
     {
         return new GeneratorInput($input, 'png');
     }
 
     /** @param string[] $input */
-    private function __construct(array $input, string $extension)
+    private function __construct(InputInterface $input, string $extension)
     {
-        $this->directory = new CodebaseDirectory($input['directory'] ?? '');
-        $this->outputFile = OutputFilePath::withExpectedExtension($input['output'] ?? '', $extension);
+        $this->directory = new CodebaseDirectory($input->getArguments()['directory'] ?? '', $input->getOptions()['glob'] ?? '');
+        $this->outputFile = OutputFilePath::withExpectedExtension($input->getArguments()['output'] ?? '', $extension);
     }
 
     public function filePath(): OutputFilePath

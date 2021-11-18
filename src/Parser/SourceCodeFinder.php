@@ -36,7 +36,8 @@ final class SourceCodeFinder implements CodeFinder
     public function find(CodebaseDirectory $directory): SourceCode
     {
         $sourceCode = new SourceCode();
-        $this->finder->in($directory->absolutePath())->files()->name('*.php')->sortByName();
+        $pattern = $directory->getGlob() ?: '*.php';
+        $this->finder->in($directory->absolutePath())->files()->name($pattern)->sortByName();
         foreach ($this->finder as $file) {
             $sourceCode->add($file->getContents());
         }

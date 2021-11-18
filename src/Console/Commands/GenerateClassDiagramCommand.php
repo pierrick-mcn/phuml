@@ -69,6 +69,12 @@ HELP
                 InputOption::VALUE_REQUIRED,
                 'Choose between the neato and dot processors'
             )
+            ->addOption(
+              'glob',
+              'g',
+              InputOption::VALUE_REQUIRED,
+              'Specify a glob to use to find and restrict parsed files'
+            )
         ;
         $this->addDigraphOptions($this);
     }
@@ -78,7 +84,7 @@ HELP
         $configuration = new ClassDiagramConfiguration($input->getOptions(), new ConsoleProgressDisplay($output));
         $generator = ClassDiagramGenerator::fromConfiguration($configuration);
 
-        $generator->generate(GeneratorInput::pngFile($input->getArguments()));
+        $generator->generate(GeneratorInput::pngFile($input));
 
         return self::SUCCESS;
     }
